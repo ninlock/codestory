@@ -1,7 +1,7 @@
 package com.codestory;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
@@ -16,6 +16,10 @@ import javax.ws.rs.Produces;
 @Path("/sources")
 @RequestScoped
 public class SourceRESTService {
+    
+    public SourceRESTService(){
+        Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).log(Level.INFO, "test init servlet");
+    }
 
     @GET
     @Path("/")
