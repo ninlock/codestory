@@ -19,7 +19,7 @@ import javax.ws.rs.QueryParam;
 public class AskRESTService {
     private static Map<String, String> responseMap = new HashMap<String, String>();
     static {
-        responseMap.put("Quelle est ton adresse email", "code.story@gmail.com");
+        responseMap.put("Quelle est ton adresse email", "ninlock37@gmail.com");
     }
 
     @GET
