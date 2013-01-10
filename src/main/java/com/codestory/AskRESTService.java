@@ -35,7 +35,7 @@ public class AskRESTService {
         if(responseMap.containsKey(key)){
            return responseMap.get(key);
         }else{
-            return "Aucune réponse trouvée.";
+            return "Aucune rÃ©ponse trouvÃ©e.";
         }
     }
     
