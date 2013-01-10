@@ -32,7 +32,7 @@ public class SourceReader {
     }
 
     public static String getSourcesLink() {
-        return "<br/><a href='sources'>sources java</a>";
+        return "<br/><a href='sources' style='text-decoration:none; color:white;' title='source project'>sources java</a>";
     }
 
     public static String getPomMaven(String sourcesPath) throws Exception {
