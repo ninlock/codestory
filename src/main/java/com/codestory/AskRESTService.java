@@ -1,4 +1,4 @@
-package com.codestory;
+﻿package com.codestory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +27,7 @@ public class AskRESTService {
     @Produces("text/html")
     public String doGet(@QueryParam(value="q")String param) {
         String response = getResponse(param);
-        response += SourceReader.getSourcesLink();
+//        response += SourceReader.getSourcesLink();
         return response;
     }
 
