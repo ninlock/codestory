@@ -6,6 +6,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.jboss.vfs.VFS;
+import org.jboss.vfs.VirtualFile;
+
 
 public class SourceReader {
 
@@ -25,9 +28,9 @@ public class SourceReader {
                 "   }" +
                 "}" +
                 "</script>";
-        sources += getSources(path + "/sources/");
-        sources += getResources(path);
-        sources += getPomMaven(path);
+        sources += getSources(path);
+        //        sources += getResources(path);
+        //        sources += getPomMaven(path);
         return sources;
     }
 
@@ -58,14 +61,17 @@ public class SourceReader {
     }
 
     public static String getSources(String sourcesPath) throws Exception {
-        File directory = new File(sourcesPath);
+        VirtualFile vf = VFS.getChild(sourcesPath);
         String result = "";
-        if(directory != null){
-            for (File file : directory.listFiles()) {
-                if(file.isFile()){
-                    result +=  createDynaBlock(encodeHtml(getInputStreamToString(new FileInputStream(file))), file.getName(), file.getName());
-                }else if(file.isDirectory()){
-                    result +=   getSources(file.getAbsolutePath() + "/");
+        if(vf.asDirectoryURI() != null || vf.asFileURI() != null){
+            for (VirtualFile file : vf.getChildren()) {
+                if(!file.getName().toLowerCase().endsWith("classes")){
+                    if(file.isFile()){
+                        result +=  createDynaBlock(encodeHtml(getInputStreamToString(file.openStream())), file.getName(), file.getName());
+                    }else if(file.isDirectory()){
+                        result += getSources(file.getPathName());
+                    }
+
                 }
             }
         }
