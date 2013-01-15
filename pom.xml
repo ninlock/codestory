@@ -17,7 +17,7 @@
 		<maven-war-plugin.version>2.3</maven-war-plugin.version>
 		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
 	</properties>
-
+	
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -48,15 +48,20 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.2.2</version>
-		</dependency>
-		<dependency>
-        	<groupId>commons-io</groupId>
-        	<artifactId>commons-io</artifactId>
-        	<version>1.0</version>
-      	</dependency>               
+		</dependency>        
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/webapp/WEB-INF</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>cloudbees-web.xml</exclude>
+					<exclude>web.xml</exclude>
+				</excludes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -85,4 +90,20 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>cloudbees</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/webapp</directory>
+						<includes>
+							<include>/WEB-INF/cloudbees-web.xml</include>
+							<include>/WEB-INF/web.xml</include>
+						</includes>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
 </project>

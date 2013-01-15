@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cloudbees-web-app xmlns="http://www.cloudbees.com/xml/webapp/1">
+	<!-- Application ID (formatted CB_ACCOUNT/APPNAME) -->
+	<appid>ninlock/ninlock-cs</appid>
+
+	<!-- DataSources (use names refererenced via <resource-ref> in WEB-INF/web.xml) -->
+	<resource name="jdbc/ninlock_cs" auth="Container" type="javax.sql.DataSource">
+		<param name="username" value="ninlock" />
+		<param name="password" value="ninlock" />
+		<param name="url" value="jdbc:mysql://ec2-23-21-211-172.compute-1.amazonaws.com:3306/ninlock_cs" />
+
+		<!-- Connection Pool settings
+		<param name="maxActive" value="20" />
+		<param name="maxIdle" value="2" />
+		<param name="maxWait" value="10000" />
+		<param name="validationQuery" value="SELECT 1" />
+		 -->
+	</resource>
+</cloudbees-web-app>

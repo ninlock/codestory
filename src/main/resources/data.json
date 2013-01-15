@@ -1,5 +1,5 @@
-{"data":[
-{"question":"Quelle est ton adresse email", "reponse":"ninlock37@gmail.com"},
-{"question":"Es tu abonne a la mailing list(OUI/NON)", "reponse":"OUI"},
-{"question":"", "reponse":"paramètre q non renseigné."}
-]}
+[
+{question:"Quelle est ton adresse email", reponse:"ninlock37@gmail.com"},
+{question:"Es tu abonne a la mailing list(OUI/NON)", reponse:"OUI"},
+{question:"", reponse:"paramètre q non renseigné."}
+]
