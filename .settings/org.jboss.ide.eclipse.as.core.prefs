@@ -1,2 +1,0 @@
-eclipse.preferences.version=1
-org.jboss.ide.eclipse.as.core.singledeployable.deployableList=src/main/resources/your-voc-ds.xml\nsrc/main/resources/mysql-connector-java-5.1.22-bin.jar\nsrc/test/resources/codestory-ds.xml\n
