@@ -1,4 +1,5 @@
 .classpath
 .project
-.settigns
+.settings
+bin
 target
