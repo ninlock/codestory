@@ -38,7 +38,6 @@
 			<scope>provided</scope>
 			<type>pom</type>
 		</dependency>
-<<<<<<< HEAD
 		<dependency>
 			<groupId>org.jboss</groupId>
 			<artifactId>jboss-vfs</artifactId>
@@ -62,11 +61,6 @@
 		<filters>
 			<filter>src/main/filters/ds-local.properties</filter>
 		</filters>
-=======
-	</dependencies>
-
-	<build>
->>>>>>> 577392a606477acecca772aaf358138f548e76ca
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -75,11 +69,7 @@
 				<configuration>
 					<encoding>UTF-8</encoding>
 					<source>1.6</source>
-<<<<<<< HEAD
 					<target>1.6</target>
-=======
-					<target>1.6</target>					
->>>>>>> 577392a606477acecca772aaf358138f548e76ca
 				</configuration>
 			</plugin>
 			<plugin>
@@ -94,17 +84,13 @@
 							<targetPath>sources</targetPath>
 						</resource>
 					</webResources>
-<<<<<<< HEAD
 					<filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
 					<warSourceExcludes>**/web.xml</warSourceExcludes>
-=======
->>>>>>> 577392a606477acecca772aaf358138f548e76ca
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
-<<<<<<< HEAD
 	<profiles>
 		<profile>
 			<id>cloudbees</id>
@@ -128,6 +114,4 @@
 			</build>
 		</profile>
 	</profiles>
-=======
->>>>>>> 577392a606477acecca772aaf358138f548e76ca
 </project>

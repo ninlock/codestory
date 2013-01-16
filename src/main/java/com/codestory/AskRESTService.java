@@ -1,6 +1,5 @@
 package com.codestory;
 
-<<<<<<< HEAD
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,13 +7,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-=======
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.GET;
->>>>>>> 577392a606477acecca772aaf358138f548e76ca
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -27,22 +19,14 @@ import javax.ws.rs.QueryParam;
 @Path("/")
 @RequestScoped
 public class AskRESTService {
-<<<<<<< HEAD
 
     @Inject
     QuestionReponseEJB questionReponseEJB;
-=======
-    private static Map<String, String> responseMap = new HashMap<String, String>();
-    static {
-        responseMap.put("Quelle est ton adresse email", "ninlock37@gmail.com");
-    }
->>>>>>> 577392a606477acecca772aaf358138f548e76ca
 
     @GET
     @Path("/")
     @Produces("text/html")
     public String doGet(@QueryParam(value="q")String param) {
-<<<<<<< HEAD
         String response = "";
         try{
             response = getResponse(param);
@@ -121,20 +105,4 @@ public class AskRESTService {
         questionReponseEJB.saveQuestionReponse(qr);
     }
 
-=======
-        String response = getResponse(param);
-//        response += SourceReader.getSourcesLink();
-        return response;
-    }
-
-    private String getResponse(String key){
-        if(responseMap.containsKey(key)){
-           return responseMap.get(key);
-        }else{
-            return "Aucune réponse trouvée.";
-        }
-    }
-    
-    
->>>>>>> 577392a606477acecca772aaf358138f548e76ca
 }
