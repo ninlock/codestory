@@ -46,7 +46,7 @@ public class AskRESTService {
     }
 
     @GET
-    @Path("/admin")
+    @Path("/enonce")
     @Produces("text/html")
     public String doGetAdmin(@QueryParam(value="q")String q, @QueryParam(value="r")String r) {
         String result;
