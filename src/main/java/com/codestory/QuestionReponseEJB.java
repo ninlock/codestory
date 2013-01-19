@@ -11,4 +11,5 @@ public interface QuestionReponseEJB {
    QuestionReponse findQuestionReponseByQuestion(String question);
    void saveQuestionReponse(QuestionReponse questionReponse);
    void updateQuestionReponse(QuestionReponse questionReponse);
+   void deleteByQuestion(String question);
 }

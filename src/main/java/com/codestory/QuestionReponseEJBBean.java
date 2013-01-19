@@ -34,4 +34,9 @@ public class QuestionReponseEJBBean implements QuestionReponseEJB {
     public void updateQuestionReponse(QuestionReponse questionReponse) {
         em.merge(questionReponse);
     }
+    
+    public void deleteByQuestion(String question) {
+        QuestionReponse questionReponse = findQuestionReponseByQuestion(question);        
+        em.remove(questionReponse);
+    }
 }
