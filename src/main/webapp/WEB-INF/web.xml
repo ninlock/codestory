@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -10,3 +11,24 @@
 	</resource-ref>
 
 </web-app>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         metadata-complete="false">
+
+         <servlet>
+                  <servlet-name>health</servlet-name>
+                  <jsp-file>/health.jsp</jsp-file>
+         </servlet>
+         <servlet-mapping>
+                  <servlet-name>health</servlet-name>
+                  <url-pattern>/health</url-pattern>
+         </servlet-mapping>
+         
+</web-app>
+
+>>>>>>> 0ec6014ad9a4f278c9acfeec7fa05da37da2443d
