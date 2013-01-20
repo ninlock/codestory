@@ -1,9 +1,7 @@
-<<<<<<< HEAD
-.classpath
 .project
 .settings
+.classpath
+.openshift
 bin
+deployments
 target
-=======
-target
->>>>>>> 0ec6014ad9a4f278c9acfeec7fa05da37da2443d
