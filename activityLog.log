@@ -1,0 +1,10 @@
+17 janv. 2013 13:57:56,994 main - XNIO Version 3.0.0.GA
+17 janv. 2013 13:57:57,009 main - XNIO NIO Implementation Version 3.0.0.GA
+17 janv. 2013 13:57:57,025 main - JBoss Remoting version 3.2.3.GA
+17 janv. 2013 13:57:57,056 Remoting "management-client" read-1 - Started channel thread 'Remoting "management-client" read-1', selector sun.nio.ch.WindowsSelectorImpl@5c28305d
+17 janv. 2013 13:57:57,056 Remoting "management-client" write-1 - Started channel thread 'Remoting "management-client" write-1', selector sun.nio.ch.WindowsSelectorImpl@527f58ef
+17 janv. 2013 14:00:25,329 main - XNIO Version 3.0.0.GA
+17 janv. 2013 14:00:25,330 main - XNIO NIO Implementation Version 3.0.0.GA
+17 janv. 2013 14:00:25,362 main - JBoss Remoting version 3.2.3.GA
+17 janv. 2013 14:00:25,393 Remoting "management-client" read-1 - Started channel thread 'Remoting "management-client" read-1', selector sun.nio.ch.WindowsSelectorImpl@5c28305d
+17 janv. 2013 14:00:25,393 Remoting "management-client" write-1 - Started channel thread 'Remoting "management-client" write-1', selector sun.nio.ch.WindowsSelectorImpl@527f58ef
