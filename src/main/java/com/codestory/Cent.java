@@ -48,4 +48,12 @@ public enum Cent {
     public Cent getCentByOrder(int order){
         return lookup.get(order);
     }    
+    
+    public Cent getCentDown(){
+        return lookup.get(order - 1);
+    }  
+    
+    public Cent getCentUp(){
+        return lookup.get(order + 1);
+    }  
 }

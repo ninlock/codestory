@@ -1,7 +1,10 @@
 package com.codestory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -21,7 +24,8 @@ import javax.ws.rs.core.Response;
 @Path("/scalaskel")
 @RequestScoped
 public class ScalaskelService {
-    
+    private static final  Map<Integer,List<Map<Cent, Integer>>> listeFullSolution = initAllSolutions();
+
     @Inject
     QuestionReponseEJB questionReponseEJB;
 
@@ -34,7 +38,9 @@ public class ScalaskelService {
             if(valueToChange < 1 || valueToChange>100 ){
                 throw new Exception();
             }
+            //            List<Map<Cent, Integer>> liste = new CentChange(valueToChange).getAllChange();
             response = Response.ok(getMoneyFromCent(valueToChange)).build();
+
         }catch (Exception e){
             response = Response.ok("[{\"Error\" : \"La valeur de changement doit être comprise entre 1 et 100. Valeur reçu : \"" + valueToChange + "}]").build();
             new WebApplicationException(e, response);           
@@ -42,51 +48,83 @@ public class ScalaskelService {
         //        response += SourceReader.getSourcesLink();
         return response;
     }
+
+    private static   Map<Integer,List<Map<Cent, Integer>>> initAllSolutions() {    
+        Map<Integer,List<Map<Cent, Integer>>> listeFull = new HashMap<Integer, List<Map<Cent,Integer>>>();
+        int nbFoo = 0;
+        int nbBar = 0;
+        int nbQix = 0;
+        int nbBaz = 0;
+        int lastValue = 0;
+        while(nbBaz <= Cent.BAZ.getMultipleCent(100)){
+            nbFoo ++;
+            if(nbFoo > Cent.FOO.getMultipleCent(100)){
+               nbFoo = 0;
+               nbBar++;
+            }            
+            if(nbBar > Cent.BAR.getMultipleCent(100)){
+                nbBar = 0;
+                nbQix++;
+            }
+            if(nbQix > Cent.QIX.getMultipleCent(100)){
+                nbQix = 0;
+                nbBaz++;
+            }
+            Map<Cent, Integer> currentMap = getInitMap(nbFoo, nbBar, nbQix, nbBaz);
+            lastValue = nbFoo + (nbBar * Cent.BAR.getValue()) + (nbQix * Cent.QIX.getValue()) + (nbBaz * Cent.BAZ.getValue());
+            if(lastValue <= 100){
+              if(listeFull.get(lastValue) == null){
+                  List<Map<Cent, Integer>> listeMap = new ArrayList<Map<Cent,Integer>>();
+                  listeFull.put(lastValue, listeMap);
+              }
+              listeFull.get(lastValue).add(currentMap);              
+            }
+        }
+        return listeFull;
+    }
     
     private String getMoneyFromCent(int valueToChange){       
-        List<String> changes = new ArrayList<String>();
-        changes.add(getChangeAsJson(Cent.FOO, valueToChange));
-        changes.add(getChangeAsJson(Cent.BAR, valueToChange));
-        changes.add(getChangeAsJson(Cent.QIX, valueToChange));
-        changes.add(getChangeAsJson(Cent.BAZ, valueToChange));
-        
+        List<Map<Cent, Integer>> changes = listeFullSolution.get(valueToChange);
+        List<String> listeJsonObject = new ArrayList<String>();
+        for (Map<Cent, Integer> map : changes) {
+            listeJsonObject.add(getCentMapToString(map));
+        }
         String result = "";
-        String curentChange = "";
-        for (String change : changes) {
-            if(change != null && !change.isEmpty() && !curentChange.equals(change)){
-                result += ((!result.isEmpty())?",":"") + "{" +  change + "}";
+        for (String jsonObject : listeJsonObject) {
+            if(jsonObject != null && !jsonObject.isEmpty()){
+                result += ((!result.isEmpty())?",":"") + jsonObject;
             }
-            curentChange = change;
         } 
         return "[" + result + "]";
     }
+  
     
-    private String getChangeAsJson(Cent cent, int value){ 
-        List<String> results =  getChange(cent, value);
+    private String getCentMapToString(Map<Cent, Integer> map){
         String result = "";
-        for (int i = results.size()-1; i >= 0 ; i--) {
-            if(!result.isEmpty()){
-                result += ",";
+        for (Cent currentCent : map.keySet()) {
+            Integer currentValue = map.get(currentCent);
+            if(currentValue != 0){
+                if(!result.isEmpty()){
+                    result += ",";
+                }              
+                result += "\"" + currentCent.getName() + "\":" + currentValue;
             }
-            result += results.get(i);
         }
+        result = "{" + result + "}";
         return result;
     }
-    
-    private List<String> getChange(Cent cent, int value){
-        List<String> results = new ArrayList<String>();          
-        int multiple = cent.getMultipleCent(value);
-        int reste = cent.getRestCent(value);
-        if(value >= cent.getValue() && multiple != 0){
-            results.add("\""+cent.getName()+"\":" + multiple);
-        }
-        if(reste != 0){
-            Cent prevCent = cent.getCentByOrder(cent.getOrder()-1);
-            if(prevCent != null){
-                results.addAll(getChange(prevCent, reste));
-            }
-        }
-        
-        return results;
+
+    private static Map<Cent, Integer> getInitMap(){
+        return getInitMap(0, 0, 0, 0);
     }
+    
+    private static Map<Cent, Integer> getInitMap(int foo, int bar, int qix, int baz){
+        Map<Cent, Integer>  map = new LinkedHashMap<Cent, Integer>();
+        map.put(Cent.FOO, foo);
+        map.put(Cent.BAR, bar);
+        map.put(Cent.QIX, qix);
+        map.put(Cent.BAZ, baz);
+        return map;
+    }
+   
 }

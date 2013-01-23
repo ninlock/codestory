@@ -5,5 +5,5 @@
 bin
 deployments
 target
-*-ds.xml
-codestory1.md
+codestory-ds.xml
+activityLog.log
