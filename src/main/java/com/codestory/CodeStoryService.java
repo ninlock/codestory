@@ -39,7 +39,7 @@ public class CodeStoryService {
     public String doGet(@QueryParam(value="q")String param) {
         String response = "";
         try{
-            response = getResponse(param);
+           response = getResponse(param);
         }catch (Exception e){
             logger.error("Erreur technique : ", e);
             response = CodeStoryUtil.MESSAGE_ERREUR;
@@ -47,6 +47,59 @@ public class CodeStoryService {
         //        response += SourceReader.getSourcesLink();
         return response;
     }
+    
+    private String getSimpleOperation(String value){
+        String signe = null;
+        String patternAddition = "\\d*[.|,]?\\d*[+]\\d*[.|,]?\\d*";
+        String patternSoustraction = "\\d*[.|,]?\\d*[-]\\d*[.|,]?\\d*";
+        String patternMulti = "\\d*[.|,]?\\d*[*]\\d*[.|,]?\\d*";
+        String patternDiv = "\\d*[.|,]?\\d*[/]\\d*[.|,]?\\d*";
+        if(value.matches(patternAddition)){
+            signe = "+";
+        }else if(value.matches(patternSoustraction)){
+            signe = "-";
+        }else if(value.matches(patternMulti)){
+            signe = "*";
+        }else if(value.matches(patternDiv)){
+            signe = "/";
+        }
+        return signe;
+    }
+    
+    private boolean isSimpleOperation(String value){
+        return getSimpleOperation(value) != null;
+    }
+    
+    private Number calculSimpleOperation(String operation){
+        operation = operation.replaceAll(",", ".");        
+        String operator = getSimpleOperation(operation);
+        Double result = null;
+        String[] values = operation.split("["+operator+"]");
+        for (String value : values) {
+            if(result != null){
+                result = compute(result, Double.valueOf(value), operator);
+            }else{
+                result = Double.valueOf(value);
+            }
+                     
+        }
+        return result;
+    }
+    
+    private Double compute(Double base, Double value, String operator){
+        Double result = base;
+        if(operator.equals("+")){
+            result = base + value;
+        } else if(operator.equals("-")){
+            result = base - value;
+        } else if(operator.equals("*")){
+            result = base * value;
+        } else if(operator.equals("/")){
+            result = base / value;
+        }
+        return result;
+    }
+
 
     @POST
     @Path("/enonce/{num}")
@@ -102,18 +155,23 @@ public class CodeStoryService {
         String reponse;
         if(q == null){
             reponse = "Le paramètre \"q\" n'est pas renseigné";
-        }else{
-            QuestionReponse qr = loadQuestionReponse(q);
-            reponse = (qr == null)?null:qr.getReponse();
-            if(reponse != null){
-                return reponse;
-            }else{
-                if(!q.equals("")){
-                    reponse = "Pas encore de réponse pour cette question";
+        }else{ 
+            String operation = q.replaceAll(" ","+");
+            if(isSimpleOperation(operation)){
+                reponse = calculSimpleOperation(operation).toString().replaceAll("0*$", "").replaceAll("\\.$", "");
+            }else {
+                QuestionReponse qr = loadQuestionReponse(q);
+                reponse = (qr == null)?null:qr.getReponse();
+                if(reponse != null){
+                    return reponse;
                 }else{
-                    reponse = "Le paramètre ne doit pas être vide.";
-                }
-            } 
+                    if(!q.equals("")){
+                        reponse = "Pas encore de réponse pour cette question";
+                    }else{
+                        reponse = "Le paramètre ne doit pas être vide.";
+                    }
+                } 
+            }
         }
         return reponse;
     }
