@@ -1,11 +1,17 @@
 package com.codestory;
 
+import groovy.lang.GroovyShell;
+
 import java.io.File;
 import java.io.FileInputStream;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,6 +23,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
+import org.codehaus.groovy.ant.Groovy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,59 +54,15 @@ public class CodeStoryService {
         //        response += SourceReader.getSourcesLink();
         return response;
     }
-    
-    private String getSimpleOperation(String value){
-        String signe = null;
-        String patternAddition = "\\d*[.|,]?\\d*[+]\\d*[.|,]?\\d*";
-        String patternSoustraction = "\\d*[.|,]?\\d*[-]\\d*[.|,]?\\d*";
-        String patternMulti = "\\d*[.|,]?\\d*[*]\\d*[.|,]?\\d*";
-        String patternDiv = "\\d*[.|,]?\\d*[/]\\d*[.|,]?\\d*";
-        if(value.matches(patternAddition)){
-            signe = "+";
-        }else if(value.matches(patternSoustraction)){
-            signe = "-";
-        }else if(value.matches(patternMulti)){
-            signe = "*";
-        }else if(value.matches(patternDiv)){
-            signe = "/";
-        }
-        return signe;
+        
+    private Number calculOperation(String operation) throws ScriptException{
+        operation = operation.replaceAll(",", ".");
+//      ScriptEngineManager sem = new ScriptEngineManager();
+//      sem.getEngineFactories();
+//      ScriptEngine se = sem.getEngineByName("js");
+//      Double r = Double.parseDouble(se.eval(operation));    
+        return (Number)new GroovyShell().evaluate(operation);
     }
-    
-    private boolean isSimpleOperation(String value){
-        return getSimpleOperation(value) != null;
-    }
-    
-    private Number calculSimpleOperation(String operation){
-        operation = operation.replaceAll(",", ".");        
-        String operator = getSimpleOperation(operation);
-        Double result = null;
-        String[] values = operation.split("["+operator+"]");
-        for (String value : values) {
-            if(result != null){
-                result = compute(result, Double.valueOf(value), operator);
-            }else{
-                result = Double.valueOf(value);
-            }
-                     
-        }
-        return result;
-    }
-    
-    private Double compute(Double base, Double value, String operator){
-        Double result = base;
-        if(operator.equals("+")){
-            result = base + value;
-        } else if(operator.equals("-")){
-            result = base - value;
-        } else if(operator.equals("*")){
-            result = base * value;
-        } else if(operator.equals("/")){
-            result = base / value;
-        }
-        return result;
-    }
-
 
     @POST
     @Path("/enonce/{num}")
@@ -157,9 +120,12 @@ public class CodeStoryService {
             reponse = "Le paramètre \"q\" n'est pas renseigné";
         }else{ 
             String operation = q.replaceAll(" ","+");
-            if(isSimpleOperation(operation)){
-                reponse = calculSimpleOperation(operation).toString().replaceAll("0*$", "").replaceAll("\\.$", "");
-            }else {
+            try{
+                reponse = calculOperation(operation).toString();
+                if(reponse.contains(".")){
+                    reponse = reponse.replaceAll("0*$", "").replaceAll("\\.$", "").replaceAll("\\.", ",");
+                }
+            }catch(Exception e) {
                 QuestionReponse qr = loadQuestionReponse(q);
                 reponse = (qr == null)?null:qr.getReponse();
                 if(reponse != null){
