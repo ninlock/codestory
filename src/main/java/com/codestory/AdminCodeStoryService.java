@@ -93,7 +93,7 @@ public class AdminCodeStoryService {
             List<QuestionReponse> liste = questionReponseEJB.findAllQuestionReponse();
             result = "<div>Liste des questions/réponse</div>";
             for (QuestionReponse questionReponse : liste) {
-                result += "<br><a href=\"/codestory/?q="+questionReponse.getQuestion()+"\">" + questionReponse.getQuestion() + " = " + questionReponse.getReponse() + "</a>";
+                result += "<br><a href=\"../?q="+questionReponse.getQuestion()+"\">" + questionReponse.getQuestion() + " = " + questionReponse.getReponse() + "</a>";
             }
         }catch(Exception e){
             result = CodeStoryUtil.MESSAGE_ERREUR;

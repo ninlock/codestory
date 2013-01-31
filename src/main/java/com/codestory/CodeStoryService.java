@@ -55,12 +55,8 @@ public class CodeStoryService {
         return response;
     }
         
-    private Number calculOperation(String operation) throws ScriptException{
+    private Number calculOperation(String operation) throws Exception{
         operation = operation.replaceAll(",", ".");
-//      ScriptEngineManager sem = new ScriptEngineManager();
-//      sem.getEngineFactories();
-//      ScriptEngine se = sem.getEngineByName("js");
-//      Double r = Double.parseDouble(se.eval(operation));    
         return (Number)new GroovyShell().evaluate(operation);
     }
 
